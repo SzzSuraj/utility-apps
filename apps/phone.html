@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phone Dialer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        #dialer {
+            display: grid;
+            grid-template-columns: repeat(3, 60px);
+            gap: 10px;
+            justify-content: center;
+        }
+        button {
+            padding: 10px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        #numberInput {
+            width: 200px;
+            font-size: 18px;
+            text-align: center;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Phone Dialer</h1>
+    <input type="text" id="numberInput" placeholder="Enter Number" readonly>
+    <div id="dialer">
+        <button onclick="addNumber('1')">1</button>
+        <button onclick="addNumber('2')">2</button>
+        <button onclick="addNumber('3')">3</button>
+        <button onclick="addNumber('4')">4</button>
+        <button onclick="addNumber('5')">5</button>
+        <button onclick="addNumber('6')">6</button>
+        <button onclick="addNumber('7')">7</button>
+        <button onclick="addNumber('8')">8</button>
+        <button onclick="addNumber('9')">9</button>
+        <button onclick="clearNumber()">C</button>
+        <button onclick="addNumber('0')">0</button>
+        <button onclick="makeCall()">📞</button>
+    </div>
+
+    <script>
+        function addNumber(num) {
+            document.getElementById('numberInput').value += num;
+        }
+
+        function clearNumber() {
+            document.getElementById('numberInput').value = "";
+        }
+
+        function makeCall() {
+            const number = document.getElementById('numberInput').value;
+            if (number) {
+                window.location.href = `tel:${number}`;
+            } else {
+                alert("Please enter a number before calling.");
+            }
+        }
+    </script>
+</body>
+</html>

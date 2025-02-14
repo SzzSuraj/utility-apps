@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid black;
+            text-align: center;
+        }
+        th {
+            background-color: lightgray;
+        }
+    </style>
+</head>
+<body>
+    <h1>Simple Calendar</h1>
+    <div id="calendar"></div>
+
+    <script>
+        function generateCalendar() {
+            const today = new Date();
+            const month = today.toLocaleString('default', { month: 'long' });
+            const year = today.getFullYear();
+            const firstDay = new Date(year, today.getMonth(), 1).getDay();
+            const daysInMonth = new Date(year, today.getMonth() + 1, 0).getDate();
+
+            let calendarHTML = `<h2>${month} ${year}</h2>`;
+            calendarHTML += `<table><tr>
+                                <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th>
+                             </tr><tr>`;
+
+            let dayCounter = 1;
+            for (let i = 0; i < 6; i++) {
+                for (let j = 0; j < 7; j++) {
+                    if (i === 0 && j < firstDay) {
+                        calendarHTML += "<td></td>";
+                    } else if (dayCounter <= daysInMonth) {
+                        calendarHTML += `<td>${dayCounter}</td>`;
+                        dayCounter++;
+                    } else {
+                        calendarHTML += "<td></td>";
+                    }
+                }
+                calendarHTML += "</tr>";
+                if (dayCounter > daysInMonth) break;
+            }
+            calendarHTML += "</table>";
+            document.getElementById("calendar").innerHTML = calendarHTML;
+        }
+
+        generateCalendar();
+    </script>
+</body>
+</html>
