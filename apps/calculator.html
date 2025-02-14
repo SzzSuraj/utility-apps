@@ -72,12 +72,12 @@
             <button class="btn btn-success" onclick="calculateResult()">=</button>
         </div>
         <div>
-            <button class="btn btn-info" onclick="appendOperator('Math.sqrt(')">√</button>
-            <button class="btn btn-info" onclick="appendOperator('**')">xʸ</button>
-            <button class="btn btn-info" onclick="appendOperator('Math.log(')">ln</button>
-            <button class="btn btn-info" onclick="appendOperator('Math.sin(')">sin</button>
-            <button class="btn btn-info" onclick="appendOperator('Math.cos(')">cos</button>
-            <button class="btn btn-info" onclick="appendOperator('Math.tan(')">tan</button>
+            <button class="btn btn-info" onclick="appendFunction('Math.sqrt')">√</button>
+            <button class="btn btn-info" onclick="appendFunction('Math.pow')">xʸ</button>
+            <button class="btn btn-info" onclick="appendFunction('Math.log')">ln</button>
+            <button class="btn btn-info" onclick="appendFunction('Math.sin')">sin</button>
+            <button class="btn btn-info" onclick="appendFunction('Math.cos')">cos</button>
+            <button class="btn btn-info" onclick="appendFunction('Math.tan')">tan</button>
         </div>
     </div>
 
@@ -88,6 +88,11 @@
 
         function appendOperator(operator) {
             document.getElementById('display').value += operator;
+        }
+
+        function appendFunction(func) {
+            let display = document.getElementById('display');
+            display.value = func + '(' + display.value + ')';
         }
 
         function clearDisplay() {
