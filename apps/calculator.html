@@ -3,30 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculator</title>
-    <script defer src="calculator.js"></script>
+    <title>Advanced Calculator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <style>
+        body {
+            text-align: center;
+            padding: 20px;
+        }
+        .calculator {
+            max-width: 350px;
+            margin: auto;
+            padding: 20px;
+            border-radius: 10px;
+            background: #f8f9fa;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        }
+        .display {
+            width: 100%;
+            height: 50px;
+            font-size: 24px;
+            text-align: right;
+            margin-bottom: 10px;
+            padding-right: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .btn {
+            font-size: 20px;
+            width: 60px;
+            height: 60px;
+            margin: 5px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Calculator</h1>
-    <input type="text" id="result" disabled>
-    <br>
-    <button onclick="clearScreen()">C</button>
-    <button onclick="appendToResult('1')">1</button>
-    <button onclick="appendToResult('2')">2</button>
-    <button onclick="appendToResult('+')">+</button>
-    <br>
-    <button onclick="calculateResult()">=</button>
+
+    <h1>Advanced Calculator</h1>
+    <div class="calculator">
+        <input type="text" id="display" class="display" readonly>
+        <div>
+            <button class="btn btn-secondary" onclick="clearDisplay()">C</button>
+            <button class="btn btn-secondary" onclick="backspace()">⌫</button>
+            <button class="btn btn-secondary" onclick="appendOperator('%')">%</button>
+            <button class="btn btn-danger" onclick="appendOperator('/')">÷</button>
+        </div>
+        <div>
+            <button class="btn btn-light" onclick="appendNumber('7')">7</button>
+            <button class="btn btn-light" onclick="appendNumber('8')">8</button>
+            <button class="btn btn-light" onclick="appendNumber('9')">9</button>
+            <button class="btn btn-danger" onclick="appendOperator('*')">×</button>
+        </div>
+        <div>
+            <button class="btn btn-light" onclick="appendNumber('4')">4</button>
+            <button class="btn btn-light" onclick="appendNumber('5')">5</button>
+            <button class="btn btn-light" onclick="appendNumber('6')">6</button>
+            <button class="btn btn-danger" onclick="appendOperator('-')">−</button>
+        </div>
+        <div>
+            <button class="btn btn-light" onclick="appendNumber('1')">1</button>
+            <button class="btn btn-light" onclick="appendNumber('2')">2</button>
+            <button class="btn btn-light" onclick="appendNumber('3')">3</button>
+            <button class="btn btn-danger" onclick="appendOperator('+')">+</button>
+        </div>
+        <div>
+            <button class="btn btn-light" onclick="appendNumber('0')">0</button>
+            <button class="btn btn-secondary" onclick="appendOperator('.')">.</button>
+            <button class="btn btn-success" onclick="calculateResult()">=</button>
+        </div>
+        <div>
+            <button class="btn btn-info" onclick="appendOperator('Math.sqrt(')">√</button>
+            <button class="btn btn-info" onclick="appendOperator('**')">xʸ</button>
+            <button class="btn btn-info" onclick="appendOperator('Math.log(')">ln</button>
+            <button class="btn btn-info" onclick="appendOperator('Math.sin(')">sin</button>
+            <button class="btn btn-info" onclick="appendOperator('Math.cos(')">cos</button>
+            <button class="btn btn-info" onclick="appendOperator('Math.tan(')">tan</button>
+        </div>
+    </div>
 
     <script>
-        function appendToResult(value) {
-            document.getElementById('result').value += value;
+        function appendNumber(number) {
+            document.getElementById('display').value += number;
         }
+
+        function appendOperator(operator) {
+            document.getElementById('display').value += operator;
+        }
+
+        function clearDisplay() {
+            document.getElementById('display').value = '';
+        }
+
+        function backspace() {
+            let display = document.getElementById('display');
+            display.value = display.value.slice(0, -1);
+        }
+
         function calculateResult() {
-            document.getElementById('result').value = eval(document.getElementById('result').value);
-        }
-        function clearScreen() {
-            document.getElementById('result').value = '';
+            try {
+                let result = eval(document.getElementById('display').value);
+                document.getElementById('display').value = result;
+            } catch (error) {
+                alert('Invalid Expression');
+            }
         }
     </script>
+
 </body>
 </html>

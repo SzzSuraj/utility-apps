@@ -3,66 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calendar</title>
+    <title>Interactive Calendar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
     <style>
         body {
-            font-family: Arial, sans-serif;
             text-align: center;
             padding: 20px;
         }
+        .calendar-container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            border-radius: 10px;
+            background: #f8f9fa;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        }
         table {
             width: 100%;
-            max-width: 400px;
-            margin: 0 auto;
             border-collapse: collapse;
         }
         th, td {
             padding: 10px;
-            border: 1px solid black;
+            border: 1px solid #ccc;
             text-align: center;
         }
         th {
-            background-color: lightgray;
+            background: #007bff;
+            color: white;
+        }
+        td:hover {
+            background: #d1ecf1;
+            cursor: pointer;
+        }
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .year-selector {
+            margin: 10px 0;
         }
     </style>
 </head>
 <body>
-    <h1>Simple Calendar</h1>
-    <div id="calendar"></div>
+
+    <h1>Interactive Calendar</h1>
+    <div class="calendar-container">
+        <div class="calendar-header">
+            <button class="btn btn-primary" onclick="changeMonth(-1)">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <h2 id="current-month-year"></h2>
+            <button class="btn btn-primary" onclick="changeMonth(1)">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+
+        <select id="year-selector" class="form-select year-selector" onchange="changeYear()"></select>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th>
+                </tr>
+            </thead>
+            <tbody id="calendar-body"></tbody>
+        </table>
+    </div>
 
     <script>
+        let currentDate = new Date();
+
         function generateCalendar() {
-            const today = new Date();
-            const month = today.toLocaleString('default', { month: 'long' });
-            const year = today.getFullYear();
-            const firstDay = new Date(year, today.getMonth(), 1).getDay();
-            const daysInMonth = new Date(year, today.getMonth() + 1, 0).getDate();
+            const month = currentDate.getMonth();
+            const year = currentDate.getFullYear();
 
-            let calendarHTML = `<h2>${month} ${year}</h2>`;
-            calendarHTML += `<table><tr>
-                                <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th>
-                             </tr><tr>`;
+            document.getElementById('current-month-year').innerText = 
+                `${new Date(year, month).toLocaleString('default', { month: 'long' })} ${year}`;
 
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            let calendarHTML = "";
             let dayCounter = 1;
+
             for (let i = 0; i < 6; i++) {
+                let rowHTML = "<tr>";
                 for (let j = 0; j < 7; j++) {
                     if (i === 0 && j < firstDay) {
-                        calendarHTML += "<td></td>";
+                        rowHTML += "<td></td>";
                     } else if (dayCounter <= daysInMonth) {
-                        calendarHTML += `<td>${dayCounter}</td>`;
+                        rowHTML += `<td>${dayCounter}</td>`;
                         dayCounter++;
                     } else {
-                        calendarHTML += "<td></td>";
+                        rowHTML += "<td></td>";
                     }
                 }
-                calendarHTML += "</tr>";
+                rowHTML += "</tr>";
+                calendarHTML += rowHTML;
                 if (dayCounter > daysInMonth) break;
             }
-            calendarHTML += "</table>";
-            document.getElementById("calendar").innerHTML = calendarHTML;
+
+            document.getElementById("calendar-body").innerHTML = calendarHTML;
         }
 
+        function changeMonth(offset) {
+            currentDate.setMonth(currentDate.getMonth() + offset);
+            generateCalendar();
+        }
+
+        function changeYear() {
+            const selectedYear = document.getElementById("year-selector").value;
+            currentDate.setFullYear(selectedYear);
+            generateCalendar();
+        }
+
+        function populateYearOptions() {
+            const yearSelector = document.getElementById("year-selector");
+            const currentYear = currentDate.getFullYear();
+            for (let i = currentYear - 50; i <= currentYear + 50; i++) {
+                let option = document.createElement("option");
+                option.value = i;
+                option.innerText = i;
+                if (i === currentYear) option.selected = true;
+                yearSelector.appendChild(option);
+            }
+        }
+
+        populateYearOptions();
         generateCalendar();
     </script>
+
 </body>
 </html>
