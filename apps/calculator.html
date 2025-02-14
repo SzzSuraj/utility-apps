@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <script defer src="calculator.js"></script>
+</head>
+<body>
+    <h1>Calculator</h1>
+    <input type="text" id="result" disabled>
+    <br>
+    <button onclick="clearScreen()">C</button>
+    <button onclick="appendToResult('1')">1</button>
+    <button onclick="appendToResult('2')">2</button>
+    <button onclick="appendToResult('+')">+</button>
+    <br>
+    <button onclick="calculateResult()">=</button>
+
+    <script>
+        function appendToResult(value) {
+            document.getElementById('result').value += value;
+        }
+        function calculateResult() {
+            document.getElementById('result').value = eval(document.getElementById('result').value);
+        }
+        function clearScreen() {
+            document.getElementById('result').value = '';
+        }
+    </script>
+</body>
+</html>
